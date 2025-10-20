@@ -2,19 +2,16 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
-#include "personas.h"
+#include "avl.h"
+#include "sort.h"
 using namespace std;
 
-//Insertion Sort por Influencia (O(N^2))
-void OrdenarInfluencia(vector<Persona> &vec){
+//Merge Sort por Nombre (O(N*log(N)))
+void OrdenarNom(vector<Persona> &vec){
     int size = vec.size();
-    for (int i = 0; i <= size - 2; i++){
-        int j = i;
-        while (vec[j].get_influencia() > vec[j+1].get_influencia() && j >= 0){
-            swap(vec[j], vec[j+1]);
-            j = j - 1;
-        }
-    }
+    vector<Persona> vec2(size);
+    mergeSplit (vec, vec2, 0, size-1);
+    return;
 }
 
 int main(){
@@ -25,6 +22,7 @@ int main(){
     cin >> acc;
     cout << endl;
 
+    AVL* arbol = new AVL();
     vector<Persona> personas;
     int n;
 
@@ -75,22 +73,27 @@ int main(){
         //randomize % de influencia
         for (int i = 0; i < n; i++){
             int ent = rand()%101;
-            float dec = (rand()%100)/100.0;
+            float dec = 00;
+            if (ent != 100){
+                dec = (rand()%100)/100.0;
+            }
             personas[i].set_influencia(ent + dec);
+            arbol->add(personas[i].get_nombre(), personas[i].get_influencia());
         }
     }
 
-    //ordenar por influencia
-    OrdenarInfluencia(personas);
-
     //Desplegar información
-    cout << "Personas ordenadas de mayor a menor influencia: " << endl << endl;
+    cout << "Personas ordenadas Alfabéticamente: " << endl << endl;
+    OrdenarNom(personas);
     int pos = 1;
-    for (int i = n - 1; i >= 0; i--){
+    for (int i = 0; i < personas.size(); i++){
         cout << pos << ". ";
         personas[i].print();
         pos = pos + 1;
     }
+
+    cout << endl << "Personas ordenadas ascendentemente por influnecia; " << endl << endl;
+    cout << arbol->inorder();
 
     return 0;
 }
