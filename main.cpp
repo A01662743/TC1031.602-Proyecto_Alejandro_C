@@ -18,16 +18,21 @@ int main(){
 
     //caso prueba o personalizado
     int acc;
-    cout << endl << "Digita 1 para caso prueba: ";
+    cout << endl << "Digita 1 para caso prueba, 2 para caso de archivo o 3 para caso personalizado: ";
     cin >> acc;
     cout << endl;
+
+    while (acc > 3 || acc < 0){
+        cout << endl << "Ingresa un valor válido: ";
+        cin >> acc;
+    }
 
     AVL* arbol = new AVL();
     vector<Persona> personas;
     int n;
 
     //caso personalizado
-    if (acc != 1){
+    if (acc == 3){
         cout << "¿Cuántos individuos hay? ";
         cin >> n;
         cout << endl;
@@ -42,9 +47,10 @@ int main(){
         string nom;
         double inf;
 
+        cout << "Ingresa los datos siguiendo el  formato del siguiente ejemplo: Alex 45.5" << endl<<endl;
         for (int i = 0; i < n; i++){
             cout << "Ingresa nombre y porcentaje de influencia de la persona no. " << i+1 << ": ";
-            cin >> n >> inf;
+            cin >> nom >> inf;
             cout << endl;
             while (inf < 0 || inf > 100){
                 cout << "Ingresar un valor válido para la influencia: ";
@@ -53,10 +59,11 @@ int main(){
             }
             personas[i].set_nombre(nom);
             personas[i].set_influencia(inf);
+            arbol->add(nom, inf);
         }
     }
     //caso prueba
-    else {
+    else if (acc == 1){
         n = 10;
         personas.resize(n);
         personas[0] = Persona("Diego");
@@ -81,18 +88,23 @@ int main(){
             arbol->add(personas[i].get_nombre(), personas[i].get_influencia());
         }
     }
-
-    //Desplegar información
-    cout << "Personas ordenadas Alfabéticamente: " << endl << endl;
-    OrdenarNom(personas);
-    int pos = 1;
-    for (int i = 0; i < personas.size(); i++){
-        cout << pos << ". ";
-        personas[i].print();
-        pos = pos + 1;
+    else{
+        arbol->loadFromFile("influencia_datos.txt");
     }
 
-    cout << endl << "Personas ordenadas ascendentemente por influnecia; " << endl << endl;
+    //Desplegar información
+    if (acc != 2){
+        cout << "Personas ordenadas Alfabéticamente: " << endl << endl;
+        OrdenarNom(personas);
+        int pos = 1;
+        for (int i = 0; i < personas.size(); i++){
+            cout << pos << ". ";
+            personas[i].print();
+            pos = pos + 1;
+        }
+    }
+
+    cout << endl << "Personas ordenadas ascendentemente por influnecia: " << endl << endl;
     cout << arbol->inorder();
 
     return 0;
