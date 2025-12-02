@@ -1,10 +1,3 @@
-/*
- * AVL.h
- *
- *  Created on: 11/10/2021
- *      Author: bvaldesa
- */
-
 #ifndef AVL_H_
 #define AVL_H_
 
