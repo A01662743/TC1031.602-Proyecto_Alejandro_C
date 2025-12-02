@@ -3,6 +3,7 @@
 
 #include <string>
 #include <sstream>
+#include <fstream>
 #include "personas.h"
 #include <iostream>
 
@@ -23,6 +24,7 @@ public:
 	void removeAll();
 	string inorder() const;
 	string preorder() const;
+	vector <Persona> loadFromFile(string fileName);
 };
 
 AVL::AVL() : root(0) {}
@@ -118,6 +120,38 @@ string AVL::preorder() const {
 	}
 	aux << "]";
 	return aux.str();
+}
+
+//formato ej: Alex 50.4
+vector<Persona> AVL::loadFromFile(string fileName) {
+    ifstream file(fileName.c_str());
+    string line;
+	vector <Persona> vec;
+    
+    if (file.is_open()) {
+        while (getline(file, line)) {
+            stringstream ss(line);
+            string nombre;
+            double influencia;
+
+            if (ss >> nombre >> influencia) {
+                if (influencia >= 0 && influencia <= 100) {
+                    this->add(nombre, influencia);
+					vec.push_back(Persona(nombre, influencia)); 
+				} else {
+                    cerr << "Fuera de rango (0-100) para " << nombre << ". Saltando registro." << endl;
+                }
+            } else {
+                cerr << "Advertencia: Formato de línea incorrecto. Saltando línea: " << line << endl;
+            }
+        }
+        file.close();
+		return vec;
+		
+    } else {
+        cerr << "Error: No se pudo abrir el archivo " << fileName << endl;
+		return vec;
+    }
 }
 
 #endif /* AVL_H_ */
