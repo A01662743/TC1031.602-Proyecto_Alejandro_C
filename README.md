@@ -20,10 +20,13 @@ Sorting (Merge Sort) por nombre
 ### Hace un análisis de complejidad correcto y completo para los algoritmos de ordenamiento usados en el programa.
 La complejidad temporal del programa es de O(N * log(N)) debido al uso del Merge Sort
 
-MergeSort O(N * log(N))
-AVL O(N * log(N)): porque se hacen N inserciones y cada inserción tiene complegidad de log(N)
-InOrder AVL O(N): se recorre nodo por nodo teniendo N nodos
-Despliegue Alfabético O(N * log(N) + N): debido a que lo más complejo es debido al Merge Sort O(N * log(N)) y posteriormente se imprime por cada valor en el vector O(N).
+- MergeSort O(N * log(N))
+
+- AVL O(N * log(N)): porque se hacen N inserciones y cada inserción tiene complegidad de log(N)
+
+- InOrder AVL O(N): se recorre nodo por nodo teniendo N nodos
+
+- Despliegue Alfabético O(N * log(N) + N): debido a que lo más complejo es debido al Merge Sort O(N * log(N)) y posteriormente se imprime por cada valor en el vector O(N).
 
 el cuál tiene la complejidad dominante en este código, a comparación de (por ejemplo) el uso de un árbol AVL con complejidad O(log(N)) el cuál es menor.
 
@@ -39,5 +42,5 @@ Se hace uso de un árbol AVL para organizar mediante el nivel de influencia debi
 ### Implementa mecanismos para consultar información de las estructuras correctos y útiles dentro de un programa.
 El programa muestra automaticamente a las personas en orden ascendente por su influencia y en orden alfabético por nombre
 
-### Implementa mecanismos de lectura de archivos correctos y útiles dentro de un programa. Usar de manera
+### Implementa mecanismos de lectura de archivos correctos y útiles dentro de un programa.
 En el caso prueba 2, las personas estan registradas en un txt con el formato 'Nombre Influencia'/n y este archivo es cargado en el caso de prueba 2
