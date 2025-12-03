@@ -80,7 +80,7 @@ int main(){
         //randomize % de influencia
         for (int i = 0; i < n; i++){
             int ent = rand()%101;
-            float dec = 00;
+            double dec = 00;
             if (ent != 100){
                 dec = (rand()%100)/100.0;
             }
@@ -89,11 +89,11 @@ int main(){
         }
     }
     else{
-        arbol->loadFromFile("influencia_datos.txt");
+        personas = arbol->loadFromFile("influencia_datos.txt");
     }
 
     //Desplegar información
-    if (acc != 2){
+    if (personas.size() != 0){
         cout << "Personas ordenadas Alfabéticamente: " << endl << endl;
         OrdenarNom(personas);
         int pos = 1;
@@ -104,8 +104,10 @@ int main(){
         }
     }
 
-    cout << endl << "Personas ordenadas ascendentemente por influnecia: " << endl << endl;
-    cout << arbol->inorder();
+    if (arbol->empty() != true){
+        cout << endl << "Personas ordenadas ascendentemente por influnecia: " << endl << endl;
+        cout << arbol->inorder();
+    }
 
     return 0;
 }
