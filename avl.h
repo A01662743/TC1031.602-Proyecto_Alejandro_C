@@ -39,47 +39,43 @@ bool AVL::empty() const {
 }
 
 void AVL::add(string nam, double val) {
-	if (root != 0) {
-		if (!root->find(val)) {
-			Persona  *temp;
-			double check_val = false;
-			bool aux = false;
-			root->add(nam, val);
-			root->max_depth();
-			temp = root->check_tree(&check_val, 0, &aux);
-			if (check_val == root->influencia){
-				root = temp;
-			}
-			root->max_depth();
-		}
-	} else {
-		root = new Persona(nam, val);
-	}
+    if (root != 0) {
+        if (!root->find(val)) {
+            root->add(nam, val);
+            root->max_depth();
+            
+            double check_val = 0;
+            bool aux = false;
+            root = root->check_tree(&check_val, 0, &aux);
+            root->max_depth();
+        }
+    } else {
+        root = new Persona(nam, val);
+    }
 }
- 
+
 void AVL::remove(double val) {
-	if (root != 0) {
-		if (val == root->influencia) {
-			Persona *succ = root->predecesor();
-			if (succ != 0) {
-				succ->left = root->left;
-				succ->right = root->right;
-			}
-			delete root;
-			root = succ;
-		} else {
-			root->remove(val);
-		}
-		root->max_depth();
-		Persona  *temp;
-		double check_val = false;
-		bool aux = false;
-		temp = root->check_tree(&check_val, 0, &aux);
-		if (check_val == root->influencia){
-			root = temp;
-		}
-		root->max_depth();
-	}
+    if (root != 0) {
+        if (val == root->influencia) {
+            Persona *succ = root->predecesor();
+            if (succ != 0) {
+                succ->left = root->left;
+                succ->right = root->right;
+            }
+            delete root;
+            root = succ;
+        } else {
+            root->remove(val);
+        }
+        
+        if (root != 0) {
+            root->max_depth();
+            double check_val = 0;
+            bool aux = false;
+            root = root->check_tree(&check_val, 0, &aux);
+            root->max_depth();
+        }
+    }
 }
 
  
