@@ -76,13 +76,13 @@ void Persona::set_influencia(double i){
 void Persona::add(string nam, double val) {
 	if (val < influencia) {
 		if (left != 0) {
-			left->add(nam, val);
+			return left->add(nam, val);
 		} else {
 			left = new Persona(nam, val);
 		}
 	} else {
 		if (right != 0) {
-			right->add(nam, val);
+			return right->add(nam, val);
 		} else {
 			right = new Persona(nam, val);
 		}
@@ -147,7 +147,7 @@ void Persona::remove(double val) {
 				left = succ;
 				delete old;
 			} else {
-				left->remove(influencia);
+				left->remove(val);
 			}
 		}
 	} else if (val > influencia) {
@@ -223,58 +223,50 @@ int Persona::max_depth() {
 
  
 Persona* Persona::check_tree(double *check_val, Persona *parent, bool *checked) {
-	//cout<< "node  influencia " << nombre << " " << influencia <<"% "<< level <<" "<< balance << endl;
-	Persona*le = 0, *ri = 0, *a = 0;
-	if (left != 0)
-		le = left->check_tree(check_val,this,checked);
-	if (right != 0)
-		ri = right->check_tree(check_val,this,checked);
-	if (*checked == false){
-		if (balance > 1){
-			a = balance_tree();
-			*check_val = influencia;
-			*checked = true;
-			if(parent != 0){
-				//cout<< "parent  " << parent->nombre << " " << parent->influencia <<" parent->left "<< parent->left->nombre << " " << parent->left->influencia<< endl;
-				parent->left = a;
-			}
-		}else if (balance < -1){
-			a = balance_tree();
-			*check_val = influencia;
-			*checked = true;
-			if(parent != 0){
-				//cout<< "parent  " << parent->nombre << " " << parent->influencia <<" parent->right "<< parent->right->nombre << " " << parent->right->influencia<< endl;
-				parent->right = a;
-			}
-		}
-	}
-	return a;
+    Persona *le = 0, *ri = 0;
+    
+    if (left != 0)
+        left = left->check_tree(check_val, this, checked);
+    if (right != 0)
+        right = right->check_tree(check_val, this, checked);
+    
+    max_depth();
+    
+    if (*checked == false && (balance > 1 || balance < -1)) {
+        Persona* a = balance_tree();
+        *check_val = influencia;
+        *checked = true;
+        return a;
+    }
+    
+    return this;
 }
 
  
 Persona* Persona::balance_tree() {
-	Persona *a = this, *le =left, *ri =right;
-	int old_influencia = influencia;
-	//cout<< "Balancing node : " << a->nombre << " " << a->influencia << " " << endl;
-	if (balance > 0) {
-		if (le->balance > 0){
-			//cout<< "rot_right  " << a->balance << " left: " << le->balance << endl;
-			a = rot_right(a);
-		}else{
-			//cout<< "rot_left_right " << a->balance << " left: " << le->balance << endl;
-			a = rot_left_right(a);
-		}
-	}else{
-		if (ri->balance < 0){
-			//cout<< "rot_left " << a->balance << " right: " << ri->balance << endl;
-			a = rot_left(a);
-		}else{
-			//cout<< "rot_right_left " << a->balance << " right: " << ri->balance << endl;
-			a = rot_right_left(a);
-		}
-	}
-	//cout<< "New current node is " << a->nombre << " " << a->influencia << endl;
-	return a;
+    Persona *a = this, *le = left, *ri = right;
+    
+    if (balance > 0) {
+        if (le->balance > 0) {
+            a = rot_right(a);
+        } else {
+            a = rot_left_right(a);
+        }
+    } else {
+        if (ri->balance < 0) {
+            a = rot_left(a);
+        } else {
+            a = rot_right_left(a);
+        }
+    }
+
+    if (a->left != 0)
+        a->left->max_depth();
+    if (a->right != 0)
+        a->right->max_depth();
+    a->max_depth();
+    
+    return a;
 }
 
  
