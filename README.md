@@ -44,3 +44,6 @@ El programa muestra automaticamente a las personas en orden ascendente por su in
 
 ### Implementa mecanismos de lectura de archivos correctos y útiles dentro de un programa.
 En el caso prueba 2, las personas estan registradas en un txt con el formato 'Nombre Influencia'/n y este archivo es cargado en el caso de prueba 2
+
+### Implementa mecanismos de escritura de archivos correctos y útiles dentro de un programa.
+En el caso 3: caso personalizable, las personas y sus influencias son agregadas en el archivo 'datos_personalizados.txt'; archivo que es limpiado antes de hacer estas adiciones o generado en caso de no existir en la ruta.
