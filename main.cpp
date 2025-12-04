@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 #include "avl.h"
 #include "sort.h"
 using namespace std;
@@ -12,6 +13,26 @@ void OrdenarNom(vector<Persona> &vec){
     vector<Persona> vec2(size);
     mergeSplit (vec, vec2, 0, size-1);
     return;
+}
+
+//Pasar archivos a un documento externo
+void escribirAArchivo(const vector<Persona>& personas, const string& nombreArchivo) {
+    ofstream archivo;
+    
+    archivo.open(nombreArchivo.c_str(), ios::out | ios::trunc);
+    
+    if (!archivo.is_open()) {
+        cerr << "Error: No se pudo crear/abrir el archivo " << nombreArchivo << endl;
+        return;
+    }
+
+    for (int i = 0; i < personas.size(); i++) {
+        archivo << personas[i].get_nombre() << " " 
+                << personas[i].get_influencia() << endl;
+    }
+    
+    archivo.close();
+    cout << "Datos guardados exitosamente en: " << nombreArchivo << endl << endl;
 }
 
 int main(){
@@ -60,6 +81,9 @@ int main(){
             personas[i].set_nombre(nom);
             personas[i].set_influencia(inf);
             arbol->add(nom, inf);
+
+            string nombreArchivo = "datos_personalizados.txt";
+            escribirAArchivo(personas, nombreArchivo);
         }
     }
     //caso prueba
